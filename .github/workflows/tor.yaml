@@ -23,7 +23,7 @@ jobs:
         apt-get install -y tor
 
     - name: Start Tor Service
-      run: sudo service tor start
+      run: service tor start
 
     - name: Configure Tor Control Port and Password
       run: |
