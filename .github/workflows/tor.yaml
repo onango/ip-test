@@ -27,9 +27,9 @@ jobs:
 
     - name: Configure Tor Control Port and Password
       run: |
-        echo "ControlPort 9051" | sudo tee -a /etc/tor/torrc
+        echo "ControlPort 9051" | tee -a /etc/tor/torrc
         echo "HashedControlPassword 16:4EA4A4B2D9CE439B59675423B71E3B2EE50F91AA5E4A508670F4D62AEC" | sudo tee -a /etc/tor/torrc
-        sudo service tor restart
+        service tor restart
 
     - name: Set Tor Control Password as Environment Variable
       run: echo "::set-env name=TOR_PASSWORD::qwerty-pass"
