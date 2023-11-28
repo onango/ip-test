@@ -8,21 +8,17 @@ on:
 jobs:
   print_ip_and_view_page:
     runs-on: ubuntu-latest
-    container: ubuntu:latest
+    container: python:3.x
 
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.x
-
-    - name: Install dependencies
+    - name: Install pip and dependencies
       run: |
-        pip install -r requirements.txt
         apt-get update
+        apt-get install -y python3-pip
+        pip3 install -r requirements.txt
         apt-get install -y libglib2.0-0 libnss3 libgconf-2-4 libfontconfig1
         apt-get install -y tor
 
@@ -38,10 +34,7 @@ jobs:
     - name: Set Tor Control Password as Environment Variable
       run: echo "::set-env name=TOR_PASSWORD::qwerty-pass"
 
-    - name: Update pip
-      run: sudo pip install --upgrade pip
-
     - name: Run Python Script with Tor
-      run: python print_ip_and_view_page.py
+      run: python3 print_ip_and_view_page.py
       env:
         TOR_PASSWORD: ${{ env.TOR_PASSWORD }}
