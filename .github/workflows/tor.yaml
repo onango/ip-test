@@ -8,7 +8,7 @@ on:
 jobs:
   print_ip_and_view_page:
     runs-on: ubuntu-latest
-    container: python:3.x
+    container: python:3.9
 
     steps:
     - name: Checkout Repository
