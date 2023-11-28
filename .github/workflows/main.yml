@@ -18,6 +18,9 @@ jobs:
       with:
         python-version: 3.x
 
+    - name: Set Working Directory
+      run: cd ${{ github.workspace }}
+
     # - name: Install dependencies
     #   run: pip install -r requirements.txt
 
