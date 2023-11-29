@@ -13,7 +13,11 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
-      
+
+    - name: Install Additional Dependencies
+      run: |
+        apt-get install -y libxss1 libappindicator1 libindicator7
+
     - name: Install Chrome
       run: |
         wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
