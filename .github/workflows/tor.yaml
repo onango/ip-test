@@ -17,9 +17,9 @@ jobs:
     - name: Install Chrome
       run: |
         wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-        sudo dpkg -i --force-depends google-chrome-stable_current_amd64.deb
-        sudo apt-get -y install -f
-        sudo mv /usr/bin/google-chrome-stable $RUNNER_TEMP/chrome
+        dpkg -i --force-depends google-chrome-stable_current_amd64.deb
+        apt-get -y install -f
+        mv /usr/bin/google-chrome-stable $RUNNER_TEMP/chrome
 
     - name: Install pip and dependencies
       run: |
