@@ -1,6 +1,9 @@
-name: Python Selenium Workflow
+name: Python Selenium with Tor Workflow
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   test:
@@ -10,28 +13,48 @@ jobs:
       image: python:3.9
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.9
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
 
-    - name: Install Dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt  # If you have a requirements file
+      - name: Install ChromeDriver
+        run: |
+          apt-get update
+          apt-get install -y unzip
+          wget -N https://chromedriver.storage.googleapis.com/$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE)/chromedriver_linux64.zip
+          unzip chromedriver_linux64.zip
+          mv chromedriver /usr/local/bin/
+          chmod +x /usr/local/bin/chromedriver
 
-    - name: Install ChromeDriver
-      run: |
-        apt-get update
-        apt-get install -y unzip
-        wget -N https://chromedriver.storage.googleapis.com/$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE)/chromedriver_linux64.zip
-        unzip chromedriver_linux64.zip
-        mv chromedriver /usr/local/bin/
-        chmod +x /usr/local/bin/chromedriver
+      - name: Make Chromedriver Executable and Move to Default Selenium Path
+        run: |
+          chmod +x /usr/local/bin/chromedriver
 
-    - name: Run Selenium Script
-      run: |
-        python your_selenium_script.py  # Replace with your Selenium script filename
+      - name: Install pip and dependencies
+        run: |
+          apt-get update
+          apt-get install -y python3-pip
+          pip3 install -r requirements.txt
+          apt-get install -y libglib2.0-0 libnss3 libgconf-2-4 libfontconfig1
+          apt-get install -y tor
+
+      - name: Start Tor Service
+        run: service tor start
+
+      - name: Configure Tor Control Port and Password
+        run: |
+          echo "ControlPort 9051" | tee -a /etc/tor/torrc
+          echo "HashedControlPassword 16:4EA4A4B2D9CE439B59675423B71E3B2EE50F91AA5E4A508670F4D62AEC" | tee -a /etc/tor/torrc
+          service tor restart
+
+      - name: Set Tor Control Password as Environment Variable
+        run: echo "TOR_PASSWORD=qwerty-pass" >> $GITHUB_ENV
+
+      - name: Run Python Script with Tor
+        run: python3 print_ip_and_view_page.py
+        env:
+          TOR_PASSWORD: ${{ secrets.TOR_PASSWORD }}
