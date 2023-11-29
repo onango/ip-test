@@ -54,13 +54,13 @@ if __name__ == "__main__":
     ip = get_ip_address()
     print(f"IP Address: {ip}")
 
-    options = ChromeOptions()
-    options.binary_location = "/usr/local/bin/chromedriver"  # Set the Chrome binary path directly
+    # options = ChromeOptions()
+    # options.binary_location = "/usr/local/bin/chromedriver"  # Set the Chrome binary path directly
 
-    options.add_argument('--headless')
-    options.add_argument('--proxy-server=socks5://127.0.0.1:9050')
+    # options.add_argument('--headless')
+    # options.add_argument('--proxy-server=socks5://127.0.0.1:9050')
 
-    with Chrome(options=options) as driver:
-        driver.get("https://example.com")
+    # with Chrome(options=options) as driver:
+    #     driver.get("https://example.com")
 
     renew_tor_ip()
