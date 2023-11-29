@@ -53,7 +53,7 @@ if __name__ == "__main__":
     print(f"IP Address: {ip}")
 
     options = ChromeOptions()
-    options.binary_location = "/usr/bin/google-chrome"
+    options.binary_location = os.environ.get("CHROME_BIN", "")
     options.add_argument('--headless')
     options.add_argument('--proxy-server=socks5://127.0.0.1:9050')
 
