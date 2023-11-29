@@ -8,11 +8,12 @@ on:
 jobs:
   print_ip_and_view_page:
     runs-on: ubuntu-latest
+    container: python:3.9
 
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
-
+      
     - name: Install Chrome
       run: |
         wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
@@ -22,11 +23,11 @@ jobs:
 
     - name: Install pip and dependencies
       run: |
-        sudo apt-get update
-        sudo apt-get install -y python3-pip
+        apt-get update
+        apt-get install -y python3-pip
         pip3 install -r requirements.txt
-        sudo apt-get install -y libglib2.0-0 libnss3 libgconf-2-4 libfontconfig1
-        sudo apt-get install -y tor
+        apt-get install -y libglib2.0-0 libnss3 libgconf-2-4 libfontconfig1
+        apt-get install -y tor
 
     - name: Start Tor Service
       run: service tor start
@@ -40,8 +41,7 @@ jobs:
     - name: Set Tor Control Password as Environment Variable
       run: echo "TOR_PASSWORD=qwerty-pass" >> $GITHUB_ENV
 
-    - name: Use Tor in Selenium
+    - name: Run Python Script with Tor
       run: python3 print_ip_and_view_page.py
       env:
         TOR_PASSWORD: ${{ secrets.TOR_PASSWORD }}
-        CHROME_BIN: $RUNNER_TEMP/chrome/chrome
