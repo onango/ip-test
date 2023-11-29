@@ -32,9 +32,9 @@ jobs:
         service tor restart
 
     - name: Set Tor Control Password as Environment Variable
-      run: echo "::set-env name=TOR_PASSWORD::qwerty-pass"
+      run: echo "TOR_PASSWORD=qwerty-pass" >> $GITHUB_ENV
 
     - name: Run Python Script with Tor
       run: python3 print_ip_and_view_page.py
       env:
-        TOR_PASSWORD: ${{ env.TOR_PASSWORD }}
+        TOR_PASSWORD: ${{ secrets.TOR_PASSWORD }}
