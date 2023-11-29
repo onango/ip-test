@@ -1,5 +1,7 @@
 import os
 import socket
+import time
+import requests
 from undetected_chromedriver import Chrome, ChromeOptions
 from stem import Signal
 from stem.control import Controller
@@ -53,7 +55,8 @@ if __name__ == "__main__":
     print(f"IP Address: {ip}")
 
     options = ChromeOptions()
-    options.binary_location = os.environ.get("CHROME_BIN", "")
+    options.binary_location = "/usr/local/bin/chromedriver"  # Set the Chrome binary path directly
+
     options.add_argument('--headless')
     options.add_argument('--proxy-server=socks5://127.0.0.1:9050')
 
