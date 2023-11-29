@@ -22,11 +22,11 @@ jobs:
 
     - name: Install pip and dependencies
       run: |
-        apt-get update
-        apt-get install -y python3-pip
+        sudo apt-get update
+        sudo apt-get install -y python3-pip
         pip3 install -r requirements.txt
-        apt-get install -y libglib2.0-0 libnss3 libgconf-2-4 libfontconfig1
-        apt-get install -y tor
+        sudo apt-get install -y libglib2.0-0 libnss3 libgconf-2-4 libfontconfig1
+        sudo apt-get install -y tor
 
     - name: Start Tor Service
       run: service tor start
