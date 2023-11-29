@@ -1,6 +1,6 @@
 import os
 import socket
-from undetected_chromedriver.v2 import Chrome, ChromeOptions
+from undetected_chromedriver import Chrome, ChromeOptions
 from stem import Signal
 from stem.control import Controller
 
